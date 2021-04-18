@@ -1,4 +1,4 @@
-package cz.alenkacz.gradle.scalafmt
+package cz.augi.gradle.scalafmt
 
 class TestProject {
     private File projectRoot

@@ -1,4 +1,4 @@
-package cz.alenkacz.gradle.scalafmt
+package cz.augi.gradle.scalafmt
 
 import java.nio.file.Files
 import java.nio.file.Paths
@@ -58,7 +58,7 @@ class ProjectMother {
             configFile(absoluteFile.toString())
             def srcFile = Files.createFile(Paths.get(srcFolder.absolutePath, "Test.scala"))
             srcFile.write """import java.nio.file.{Paths, Files}
-                                           |object Test { foo(a,  "src/test/scala/cz/alenkacz/gradle/scalafmt/test", "src/test/scala/cz/alenkacz/gradle/scalafmt/test", "src/test/scala/cz/alenkacz/gradle/scalafmt/test"
+                                           |object Test { foo(a,  "src/test/scala/cz/augi/gradle/scalafmt/test", "src/test/scala/cz/augi/gradle/scalafmt/test", "src/test/scala/cz/augi/gradle/scalafmt/test"
                                            | b)}
                                            """.stripMargin()
             testProject = new TestProject(absoluteFile, srcFile.toFile())
@@ -84,8 +84,8 @@ class ProjectMother {
                                            |object Test { foo(a, // comment
                                            |    b)}
                                            """.stripMargin()
-    private static def sourceFilePath = "src/main/scala/cz/alenkacz/gradle/scalafmt/test"
-    private static def testSourceFilePath = "src/test/scala/cz/alenkacz/gradle/scalafmt/test"
+    private static def sourceFilePath = "src/main/scala/cz/augi/gradle/scalafmt/test"
+    private static def testSourceFilePath = "src/test/scala/cz/augi/gradle/scalafmt/test"
 
     static def projectWithConfig() {
         TestProject testProject = null

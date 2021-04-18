@@ -1,6 +1,6 @@
-package cz.alenkacz.gradle.scalafmt
+package cz.augi.gradle.scalafmt
 
-import org.gradle.api.internal.artifacts.ivyservice.DefaultLenientConfiguration
+
 import org.gradle.testfixtures.ProjectBuilder
 import spock.lang.Specification
 
@@ -86,7 +86,7 @@ class ScalafmtCheckTaskTest extends Specification {
             mavenCentral()
         }
         project.dependencies {
-            compile 'org.scala-lang:scala-library:2.12.10'
+            implementation 'org.scala-lang:scala-library:2.12.10'
         }
 
         when:

@@ -1,88 +1,104 @@
-buildscript {
-    repositories {
-        jcenter()
-        maven {
-            url "https://plugins.gradle.org/m2/"
-        }
-    }
-    dependencies {
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4'
-        classpath 'com.gradle.publish:plugin-publish-plugin:0.14.0'
-    }
-}
-
 plugins {
-    id 'net.researchgate.release' version '2.8.1'
+    id 'groovy'
+    id 'maven-publish'
+    id 'java-gradle-plugin'
+    id 'signing'
+    id 'io.github.gradle-nexus.publish-plugin' version '1.0.0'
+    id 'com.gradle.plugin-publish' version '0.14.0'
 }
 
-group 'cz.alenkacz'
+group 'cz.augi'
 version = version == 'unspecified' ? 'DEVELOPER-SNAPSHOT' : version
 
-apply plugin: 'groovy'
-apply plugin: 'java'
-apply plugin: 'maven'
-apply plugin: 'com.jfrog.bintray'
-apply plugin: 'com.gradle.plugin-publish'
-
 repositories {
-    jcenter()
+    mavenCentral()
 }
 
 dependencies {
-    compile gradleApi()
-    compile 'org.scalameta:scalafmt-dynamic_2.12:2.7.5'
-    compile 'org.scala-lang.modules:scala-xml_2.12:1.3.0'
-    
-    testCompile 'junit:junit:4.13'
-    testCompile gradleTestKit()
-    testCompile ('org.spockframework:spock-core:1.3-groovy-2.4') {
+    api gradleApi()
+    api 'org.scalameta:scalafmt-dynamic_2.12:2.7.5'
+    api 'org.scala-lang.modules:scala-xml_2.12:1.3.0'
+
+    testImplementation 'junit:junit:4.13.2'
+    testImplementation gradleTestKit()
+    testImplementation ('org.spockframework:spock-core:2.0-M5-groovy-3.0') {
         exclude group:'org.codehaus.groovy'
     }
-
 }
 
-task sourcesJar(type: Jar) {
-    from sourceSets.main.allSource
-    archiveClassifier = 'sources'
-}
-
-artifacts {
-    archives sourcesJar
-}
-
-bintray {
-    user = System.getenv('BINTRAY_USER')
-    key = System.getenv('BINTRAY_KEY')
-    configurations = ['archives']
-    publish = true
-    pkg {
-        repo = 'maven'
-        name = 'gradle-scalafmt'
-        desc = 'Gradle plugin that can run scalafmt as a part of your build.'
-        licenses = ['MIT']
-        vcsUrl = 'https://github.com/alenkacz/gradle-scalafmt.git'
-        websiteUrl = 'https://github.com/alenkacz/gradle-scalafmt'
-        issueTrackerUrl = 'https://github.com/alenkacz/gradle-scalafmt/issues'
-        labels = ['scala', 'scalafmt', 'formatting']
-        version {
-            name = project.version
-            vcsTag = project.version
-        }
+test {
+    useJUnitPlatform()
+    testLogging {
+        events 'failed'
+        exceptionFormat 'full'
     }
 }
+
+sourceCompatibility = JavaVersion.VERSION_1_8
 
 project.ext.set('gradle.publish.key', System.getenv('GRADLE_PORTAL_KEY'))
 project.ext.set('gradle.publish.secret', System.getenv('GRADLE_PORTAL_SECRET'))
 pluginBundle {
-    website = 'https://github.com/alenkacz/gradle-scalafmt'
-    vcsUrl = 'https://github.com/alenkacz/gradle-scalafmt'
-    description = 'Gradle plugin that can run scalafmt as a part of your build.'
-    tags = ['scalafmt', 'scala', "formatting"]
+    website = 'https://github.com/augi/gradle-scalafmt'
+    vcsUrl = 'https://github.com/augi/gradle-scalafmt'
+    description = 'Gradle plugin to apply scalafmt (Scala linting tool)'
+    tags = ['gradle', 'scala', 'scalafmt']
 
     plugins {
-        scalafmtPlugin {
-            id = 'cz.alenkacz.gradle.scalafmt'
-            displayName = 'Gradle Scalafmt plugin'
+        wartremoverPlugin {
+            id = 'cz.augi.gradle.scalafmt'
+            displayName = 'Gradle scalafmt plugin'
+        }
+    }
+}
+
+
+java {
+    withJavadocJar()
+    withSourcesJar()
+}
+
+afterEvaluate {
+    publishing.publications.forEach {
+        it.pom {
+            name = 'Gradle scalafmt Plugin'
+            description = 'Gradle plugin to apply scalafmt (Scala linting tool)'
+            url = 'https://github.com/augi/gradle-scalafmt'
+            licenses {
+                license {
+                    name = 'The MIT License'
+                    url = 'http://www.opensource.org/licenses/mit-license.php'
+                }
+            }
+            developers {
+                developer {
+                    id = 'augi'
+                    name = 'Michal Augustýn'
+                    email = 'augustyn.michal@gmail.com'
+                }
+            }
+            scm {
+                connection = 'scm:git:git://github.com/augi/gradle-scalafmt.git'
+                developerConnection = 'scm:git:ssh://github.com/augi/gradle-scalafmt.git'
+                url = 'https://github.com/augi/gradle-scalafmt'
+            }
+        }
+    }
+}
+
+signing {
+    String base64Key = System.getenv('SIGNING_KEY')
+    if (base64Key) {
+        useInMemoryPgpKeys(new String(Base64.decoder.decode(base64Key)), System.getenv('SIGNING_PASSWORD'))
+        sign publishing.publications
+    }
+}
+
+nexusPublishing {
+    repositories {
+        sonatype {
+            nexusUrl.set(uri("https://s01.oss.sonatype.org/service/local/"))
+            snapshotRepositoryUrl.set(uri("https://s01.oss.sonatype.org/content/repositories/snapshots/"))
         }
     }
 }

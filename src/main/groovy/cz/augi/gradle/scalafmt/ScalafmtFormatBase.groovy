@@ -1,4 +1,4 @@
-package cz.alenkacz.gradle.scalafmt
+package cz.augi.gradle.scalafmt
 
 import org.gradle.api.DefaultTask
 import org.gradle.api.plugins.JavaBasePlugin

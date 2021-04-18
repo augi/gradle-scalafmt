@@ -1,6 +1,4 @@
-# Scalafmt Gradle plugin
-
-[![Build Status](https://travis-ci.org/alenkacz/gradle-scalafmt.svg)](https://travis-ci.org/alenkacz/gradle-scalafmt) [ ![Download](https://api.bintray.com/packages/alenkacz/maven/gradle-scalafmt/images/download.svg) ](https://bintray.com/alenkacz/maven/gradle-scalafmt/_latestVersion)
+# Gradle scalafmt plugin [![Build](https://github.com/augi/gradle-scalafmt/actions/workflows/build.yml/badge.svg)](https://github.com/augi/gradle-scalafmt/actions/workflows/build.yml)
 
 This plugin will allow you to format your scala code as a part of your build process. In the background, it uses [scalafmt](https://github.com/scalameta/scalafmt) library.
 
@@ -12,7 +10,7 @@ Usage
 ====================
 
 	plugins {
-		id 'cz.alenkacz.gradle.scalafmt' version '$latestVersion'
+		id 'cz.augi.gradle.scalafmt' version 'putCurrentVersionHere'
 	}
 	
 	scalafmt {

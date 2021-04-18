@@ -1,4 +1,4 @@
-package cz.alenkacz.gradle.scalafmt
+package cz.augi.gradle.scalafmt
 
 import org.gradle.api.Task
 import org.gradle.testfixtures.ProjectBuilder
