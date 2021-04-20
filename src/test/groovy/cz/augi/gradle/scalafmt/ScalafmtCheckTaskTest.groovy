@@ -86,7 +86,7 @@ class ScalafmtCheckTaskTest extends Specification {
             mavenCentral()
         }
         project.dependencies {
-            implementation 'org.scala-lang:scala-library:2.12.10'
+            implementation 'org.scala-lang:scala-library:2.13.5'
         }
 
         when:
