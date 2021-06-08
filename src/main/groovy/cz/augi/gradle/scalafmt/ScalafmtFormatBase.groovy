@@ -15,9 +15,11 @@ class ScalafmtFormatBase extends DefaultTask {
     SourceSet sourceSet
     @Internal PluginExtension pluginExtension
 
+    public static String SCALAFMT_VERSION = '2.7.5'
+
     static private Scalafmt globalFormatter = Scalafmt.create(ScalafmtFormatBase.getClassLoader())
             .withRespectVersion(false)
-            .withDefaultVersion("2.7.5")
+            .withDefaultVersion(SCALAFMT_VERSION)
 
     @InputFiles
     @PathSensitive(PathSensitivity.RELATIVE)
