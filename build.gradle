@@ -39,12 +39,6 @@ sourceCompatibility = JavaVersion.VERSION_1_8
 project.ext.set('gradle.publish.key', System.getenv('GRADLE_PORTAL_KEY'))
 project.ext.set('gradle.publish.secret', System.getenv('GRADLE_PORTAL_SECRET'))
 
-pluginBundle {
-    website = 'https://github.com/augi/gradle-scalafmt'
-    vcsUrl = 'https://github.com/augi/gradle-scalafmt'
-    tags = ['gradle', 'scala', 'scalafmt']
-}
-
 gradlePlugin {
     plugins {
         wartremoverPlugin {
@@ -52,6 +46,7 @@ gradlePlugin {
             displayName = 'Gradle scalafmt plugin'
             description = 'Gradle plugin to apply scalafmt (Scala linting tool)'
             implementationClass = 'cz.augi.gradle.scalafmt.ScalafmtPlugin'
+            tags.set(['gradle', 'scala', 'scalafmt'])
         }
     }
 }
