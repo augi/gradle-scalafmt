@@ -50,7 +50,7 @@ gradlePlugin {
             displayName = 'Gradle scalafmt plugin'
             description = 'Gradle plugin to apply scalafmt (Scala linting tool)'
             implementationClass = 'cz.augi.gradle.scalafmt.ScalafmtPlugin'
-            tags.set(['gradle', 'scala', 'scalafmt'])
+            tags.set(['scala', 'scalafmt'])
         }
     }
 }
