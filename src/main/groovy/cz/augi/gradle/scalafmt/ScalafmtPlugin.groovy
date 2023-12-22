@@ -4,7 +4,7 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.Task
 import org.gradle.api.plugins.JavaBasePlugin
-import org.gradle.api.plugins.JavaPluginConvention
+import org.gradle.api.plugins.JavaPluginExtension
 
 class ScalafmtPlugin implements Plugin<Project> {
     @Override
@@ -14,9 +14,8 @@ class ScalafmtPlugin implements Plugin<Project> {
         Task checkScalafmtAll = project.tasks.create('checkScalafmtAll')
         checkScalafmtAll.description = "Checks formatting of all source sets using scalafmt."
         PluginExtension extension = project.extensions.create('scalafmt', PluginExtension)
-        project.plugins.withType(JavaBasePlugin) {
-            def jpc = project.convention.getPlugin(JavaPluginConvention)
-            jpc.sourceSets.all { sourceSet ->
+        project.plugins.withType(JavaBasePlugin).configureEach {
+            project.extensions.getByType(JavaPluginExtension).sourceSets.configureEach { sourceSet ->
                 def task = project.tasks.register(sourceSet.getTaskName("", "scalafmt"), ScalafmtTask, {
                     it.sourceSet = sourceSet
                     it.pluginExtension = extension
