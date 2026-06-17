@@ -8,9 +8,11 @@ import org.gradle.api.tasks.OutputFile
 import org.gradle.api.tasks.PathSensitive
 import org.gradle.api.tasks.PathSensitivity
 import org.gradle.api.tasks.SourceSet
+import org.gradle.work.DisableCachingByDefault
 import org.scalafmt.dynamic.ScalafmtDynamicError
 import org.scalafmt.interfaces.Scalafmt
 
+@DisableCachingByDefault(because = 'Scalafmt task modifies source files in-place')
 class ScalafmtFormatBase extends DefaultTask {
     SourceSet sourceSet
     @Internal PluginExtension pluginExtension
